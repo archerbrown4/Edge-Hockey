@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EDGE — Find Your Edge Off The Ice</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700&display=swap');
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0B0B0B;
+  --card: #111111;
+  --card-hover: #161616;
+  --red: #FF0100;
+  --red-dim: rgba(255,1,0,0.12);
+  --blue: #00A3E0;
+  --amber: #FFB800;
+  --text: #FFFFFF;
+  --text-sec: rgba(255,255,255,0.55);
+  --text-ter: rgba(255,255,255,0.30);
+  --text-muted: rgba(255,255,255,0.15);
+  --border: rgba(255,255,255,0.06);
+  --font: 'Outfit', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* Noise overlay */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1000;
+}
+
+a { color: var(--red); text-decoration: none; }
+
+/* ===== NAV ===== */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 20px 40px;
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(11,11,11,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  display: flex; align-items: center; gap: 10px;
+}
+.nav-logo svg { width: 28px; height: 28px; }
+.nav-logo span {
+  font-size: 16px; font-weight: 600; letter-spacing: 3px; color: var(--text);
+}
+.nav-links { display: flex; gap: 32px; align-items: center; }
+.nav-links a {
+  color: var(--text-sec); font-size: 13px; font-weight: 500;
+  letter-spacing: 0.5px; transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--text); }
+.nav-cta {
+  background: var(--red); color: #fff !important; padding: 10px 24px;
+  border-radius: 6px; font-weight: 600; font-size: 13px; letter-spacing: 0.5px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.nav-cta:hover { transform: translateY(-1px); box-shadow: 0 8px 30px rgba(255,1,0,0.3); }
+
+/* ===== HERO ===== */
+.hero {
+  min-height: 100vh; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; text-align: center;
+  padding: 120px 24px 80px;
+  position: relative;
+}
+.hero::before {
+  content: '';
+  position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
+  width: 800px; height: 800px;
+  background: radial-gradient(circle, rgba(255,1,0,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 16px; border-radius: 100px;
+  border: 1px solid var(--red); background: var(--red-dim);
+  font-size: 11px; font-weight: 600; letter-spacing: 2px; color: var(--red);
+  margin-bottom: 32px;
+  animation: fadeUp 0.8s ease both;
+}
+.hero h1 {
+  font-size: clamp(48px, 8vw, 96px);
+  font-weight: 200; letter-spacing: -3px; line-height: 1.05;
+  max-width: 800px;
+  animation: fadeUp 0.8s ease 0.1s both;
+}
+.hero h1 em {
+  font-style: normal; color: var(--red); font-weight: 300;
+}
+.hero p {
+  font-size: 18px; color: var(--text-sec); max-width: 500px;
+  line-height: 1.7; margin-top: 24px; font-weight: 300;
+  animation: fadeUp 0.8s ease 0.2s both;
+}
+.hero-actions {
+  display: flex; gap: 16px; margin-top: 40px;
+  animation: fadeUp 0.8s ease 0.3s both;
+}
+.btn-primary {
+  background: var(--red); color: #fff; padding: 16px 40px;
+  border-radius: 8px; font-weight: 600; font-size: 15px;
+  letter-spacing: 0.5px; border: none; cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  font-family: var(--font);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(255,1,0,0.3); }
+.btn-secondary {
+  background: transparent; color: var(--text-sec); padding: 16px 32px;
+  border-radius: 8px; font-weight: 500; font-size: 15px;
+  border: 1px solid var(--border); cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+  font-family: var(--font);
+}
+.btn-secondary:hover { border-color: rgba(255,255,255,0.2); color: var(--text); }
+
+.hero-stats {
+  display: flex; gap: 48px; margin-top: 64px;
+  animation: fadeUp 0.8s ease 0.4s both;
+}
+.hero-stat-num {
+  font-size: 40px; font-weight: 200; letter-spacing: -2px;
+}
+.hero-stat-label {
+  font-size: 10px; font-weight: 600; letter-spacing: 2.5px;
+  color: var(--text-ter); margin-top: 4px;
+}
+
+/* ===== SECTIONS ===== */
+section { padding: 100px 24px; max-width: 1100px; margin: 0 auto; }
+.section-label {
+  font-size: 10px; font-weight: 600; letter-spacing: 3px;
+  color: var(--text-ter); margin-bottom: 16px;
+}
+.section-title {
+  font-size: clamp(32px, 5vw, 48px);
+  font-weight: 200; letter-spacing: -1.5px; line-height: 1.15;
+  max-width: 600px;
+}
+.section-desc {
+  font-size: 16px; color: var(--text-sec); line-height: 1.7;
+  max-width: 500px; margin-top: 16px; font-weight: 300;
+}
+
+/* ===== FEATURES ===== */
+.features-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1px; margin-top: 56px;
+  background: var(--border); border-radius: 16px; overflow: hidden;
+  border: 1px solid var(--border);
+}
+.feature-card {
+  background: var(--card); padding: 40px 32px;
+  transition: background 0.3s;
+}
+.feature-card:hover { background: var(--card-hover); }
+.feature-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  margin-bottom: 20px;
+}
+.feature-card h3 {
+  font-size: 18px; font-weight: 500; margin-bottom: 10px; letter-spacing: -0.3px;
+}
+.feature-card p {
+  font-size: 14px; color: var(--text-sec); line-height: 1.7; font-weight: 300;
+}
+
+/* ===== HOW IT WORKS ===== */
+.steps {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 40px; margin-top: 56px;
+}
+.step { position: relative; }
+.step-num {
+  font-size: 64px; font-weight: 200; color: var(--red);
+  letter-spacing: -4px; line-height: 1; opacity: 0.4;
+  margin-bottom: 16px;
+}
+.step h3 { font-size: 18px; font-weight: 500; margin-bottom: 8px; }
+.step p { font-size: 14px; color: var(--text-sec); line-height: 1.7; font-weight: 300; }
+
+/* ===== TIERS ===== */
+.tiers-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 16px; margin-top: 56px;
+}
+.tier-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 16px; padding: 36px 28px; position: relative;
+  transition: border-color 0.3s, transform 0.3s;
+}
+.tier-card:hover { transform: translateY(-4px); }
+.tier-card.popular { border-color: var(--red); }
+.tier-popular-tag {
+  position: absolute; top: -12px; right: 20px;
+  background: var(--red); color: #fff; padding: 4px 14px;
+  border-radius: 100px; font-size: 10px; font-weight: 700; letter-spacing: 2px;
+}
+.tier-name {
+  font-size: 12px; font-weight: 600; letter-spacing: 2px; color: var(--text-ter);
+}
+.tier-price {
+  font-size: 40px; font-weight: 200; letter-spacing: -2px; margin-top: 8px;
+}
+.tier-price span { font-size: 16px; color: var(--text-ter); font-weight: 400; }
+.tier-features { list-style: none; margin-top: 24px; }
+.tier-features li {
+  font-size: 14px; color: var(--text-sec); padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 10px;
+  font-weight: 300;
+}
+.tier-features li::before {
+  content: ''; width: 6px; height: 6px; border-radius: 50%;
+  flex-shrink: 0;
+}
+.tier-card:nth-child(1) .tier-features li::before { background: var(--text-ter); }
+.tier-card:nth-child(2) .tier-features li::before { background: var(--red); }
+.tier-card:nth-child(3) .tier-features li::before { background: var(--amber); }
+
+/* ===== VALUE COMPARISON ===== */
+.value-callout {
+  margin-top: 48px; margin-bottom: 48px;
+  border: 1px solid var(--red); border-radius: 16px;
+  overflow: hidden; background: var(--card);
+}
+.value-inner {
+  display: grid; grid-template-columns: 1.2fr 1fr;
+}
+.value-left {
+  padding: 40px 36px; border-right: 1px solid var(--border);
+}
+.value-vs {
+  display: flex; align-items: center; gap: 24px;
+}
+.value-item { flex: 1; }
+.value-price {
+  font-size: 36px; font-weight: 200; letter-spacing: -2px;
+  color: var(--text);
+}
+.value-price span { font-size: 16px; color: var(--text-ter); font-weight: 400; }
+.value-price.dim { color: var(--text-ter); }
+.value-label {
+  font-size: 11px; font-weight: 600; letter-spacing: 1.5px;
+  color: var(--red); margin-top: 4px;
+}
+.value-item:last-child .value-label { color: var(--text-ter); }
+.value-detail {
+  font-size: 12px; color: var(--text-sec); margin-top: 6px; line-height: 1.5; font-weight: 300;
+}
+.value-equals {
+  font-size: 24px; font-weight: 200; color: var(--text-ter);
+  flex-shrink: 0;
+}
+.value-right { padding: 40px 36px; display: flex; flex-direction: column; justify-content: center; }
+.value-tagline {
+  font-size: 20px; font-weight: 400; line-height: 1.4; letter-spacing: -0.3px;
+  color: var(--text);
+}
+.value-sub {
+  font-size: 13px; color: var(--text-sec); line-height: 1.7;
+  margin-top: 12px; font-weight: 300;
+}
+
+@media (max-width: 768px) {
+  .value-inner { grid-template-columns: 1fr; }
+  .value-left { border-right: none; border-bottom: 1px solid var(--border); padding: 28px 24px; }
+  .value-right { padding: 28px 24px; }
+  .value-vs { flex-direction: column; gap: 16px; text-align: center; }
+  .value-equals { transform: rotate(90deg); }
+}
+
+/* ===== COACHES ===== */
+.coaches {
+  display: flex; gap: 32px; margin-top: 56px; flex-wrap: wrap;
+}
+.coach-card {
+  flex: 1; min-width: 240px; background: var(--card); border: 1px solid var(--border);
+  border-radius: 12px; padding: 28px;
+}
+.coach-name { font-size: 16px; font-weight: 500; margin-bottom: 4px; }
+.coach-role { font-size: 12px; color: var(--text-ter); font-weight: 400; letter-spacing: 0.5px; }
+.coach-desc { font-size: 13px; color: var(--text-sec); line-height: 1.6; margin-top: 12px; font-weight: 300; }
+
+/* ===== CTA / SIGNUP ===== */
+.cta-section {
+  text-align: center; padding: 120px 24px;
+  position: relative;
+}
+.cta-section::before {
+  content: '';
+  position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(255,1,0,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.cta-section .section-title { margin: 0 auto 16px; text-align: center; }
+.cta-section .section-desc { margin: 0 auto 40px; text-align: center; }
+
+.signup-form {
+  display: flex; gap: 12px; max-width: 480px; margin: 0 auto;
+  position: relative; z-index: 1;
+}
+.signup-input {
+  flex: 1; padding: 16px 20px; border-radius: 8px;
+  background: var(--card); border: 1px solid var(--border);
+  color: var(--text); font-size: 15px; font-family: var(--font);
+  outline: none; transition: border-color 0.2s;
+}
+.signup-input::placeholder { color: var(--text-ter); }
+.signup-input:focus { border-color: var(--red); }
+.signup-btn {
+  background: var(--red); color: #fff; padding: 16px 32px;
+  border-radius: 8px; font-weight: 600; font-size: 14px;
+  border: none; cursor: pointer; font-family: var(--font);
+  letter-spacing: 0.5px; white-space: nowrap;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.signup-btn:hover { transform: translateY(-1px); box-shadow: 0 8px 30px rgba(255,1,0,0.3); }
+.signup-note {
+  font-size: 12px; color: var(--text-ter); margin-top: 12px; font-weight: 300;
+}
+.signup-success {
+  display: none; color: var(--red); font-size: 16px; font-weight: 500;
+  margin-top: 16px;
+}
+
+/* ===== FOOTER ===== */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 40px 24px;
+  text-align: center;
+}
+footer p { font-size: 12px; color: var(--text-ter); font-weight: 300; }
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.reveal {
+  opacity: 0; transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ===== MOBILE ===== */
+@media (max-width: 768px) {
+  nav { padding: 16px 20px; }
+  .nav-links a:not(.nav-cta) { display: none; }
+  .features-grid { grid-template-columns: 1fr; }
+  .steps { grid-template-columns: 1fr; gap: 32px; }
+  .tiers-grid { grid-template-columns: 1fr; }
+  .hero-stats { gap: 32px; }
+  .signup-form { flex-direction: column; }
+  .coaches { flex-direction: column; }
+  section { padding: 64px 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <svg viewBox="0 0 32 32" fill="none"><polygon points="6,4 26,16 6,28" fill="#FF0100"/></svg>
+    <span>EDGE</span>
+  </div>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#method">Method</a>
+    <a href="#signup" class="nav-cta">Join Beta</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">THE MISSING PIECE TO YOUTH DEVELOPMENT</div>
+  <h1>Find Your <em>Edge</em> Off The Ice</h1>
+  <p>The hockey training app that builds elite hands, a lethal shot, and game-ready mobility. Guided workouts backed by NHL-level methodology — with AI video coaching that watches your form and gives you personalized feedback. The future of player development, in your pocket.</p>
+  <div class="hero-actions">
+    <a href="#signup"><button class="btn-primary">Join the Beta</button></a>
+    <a href="#features"><button class="btn-secondary">See Features</button></a>
+  </div>
+  <div class="hero-stats">
+    <div>
+      <div class="hero-stat-num">80+</div>
+      <div class="hero-stat-label">DRILLS</div>
+    </div>
+    <div>
+      <div class="hero-stat-num">18</div>
+      <div class="hero-stat-label">SESSIONS</div>
+    </div>
+    <div>
+      <div class="hero-stat-num">3</div>
+      <div class="hero-stat-label">DISCIPLINES</div>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="section-label">WHAT YOU GET</div>
+  <div class="section-title">Everything you need to train like a pro</div>
+  <div class="section-desc">Three complete training programs in one app. Step-by-step guided workouts with timers, progression tracking, and AI video coaching.</div>
+
+  <div class="features-grid reveal">
+    <div class="feature-card">
+      <div class="feature-dot" style="background: var(--red)"></div>
+      <h3>Stickhandling</h3>
+      <p>29 drills across 6 sessions. Daily hands, fundamentals, game day prep, moves and dekes, puck protection, and speed hands. Built on methods from Lance Pitlick, Sean Skinner, and Hendrikx Hockey.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-dot" style="background: var(--red)"></div>
+      <h3>Shooting</h3>
+      <p>20 drills across 5 sessions. Shot foundation, wrist shot mastery, snap shot, slap shot, and game scoring. Informed by Tim Turk (NHL shooting coach), Dwayne Blais (Detroit Red Wings), and Auston Matthews' mechanics.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-dot" style="background: var(--blue)"></div>
+      <h3>Mobility</h3>
+      <p>31 exercises across 7 sessions. Daily baseline, morning wake-up, bedtime wind-down, and game-specific flows. Based on Matt Nichol, Ben Prentiss, and Rob Dombrowski methodologies.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-dot" style="background: var(--red)"></div>
+      <h3>Guided Workouts</h3>
+      <p>No guessing. Tap a session and the app walks you through each drill one at a time. Built-in timers for timed drills. Details available if you need the step-by-step breakdown.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-dot" style="background: var(--amber)"></div>
+      <h3>AI Video Coaching</h3>
+      <p>The biggest advancement in player development is here. Record yourself doing any drill and AI analyzes your mechanics in real time — giving you the same form corrections a $200/hour skills coach would. No scheduling, no rink required.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-dot" style="background: var(--red)"></div>
+      <h3>Progress Tracking</h3>
+      <p>XP system, streak tracking, and completion rings for every session. See your progress across all three disciplines at a glance. Stay consistent, get better.</p>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section>
+  <div class="section-label">HOW IT WORKS</div>
+  <div class="section-title">Three steps to better hockey</div>
+  <div class="steps reveal">
+    <div class="step">
+      <div class="step-num">01</div>
+      <h3>Pick a session</h3>
+      <p>Choose from stickhandling, shooting, or mobility. Free sessions available daily. Pro unlocks everything.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <h3>Follow the flow</h3>
+      <p>The app guides you through each drill with timers and instructions. No planning, no thinking. Just train.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <h3>Track and improve</h3>
+      <p>Complete drills, earn XP, build streaks. Turn on AI video coaching for personalized form feedback.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="section-label">PRICING</div>
+  <div class="section-title">Start free. Go pro when you're ready.</div>
+  <div class="section-desc">No commitment required. Free tier gives you real workouts every day.</div>
+
+  <div class="value-callout reveal">
+    <div class="value-inner">
+      <div class="value-left">
+        <div class="value-vs">
+          <div class="value-item">
+            <div class="value-price">$80<span>/yr</span></div>
+            <div class="value-label">EDGE Pro — Full Year</div>
+            <div class="value-detail">80+ drills, 18 sessions, guided workouts, AI coaching access</div>
+          </div>
+          <div class="value-equals">=</div>
+          <div class="value-item">
+            <div class="value-price dim">$80<span>–150</span></div>
+            <div class="value-label">One Extra Ice Session</div>
+            <div class="value-detail">One hour, one rink, then it's over</div>
+          </div>
+        </div>
+      </div>
+      <div class="value-right">
+        <div class="value-tagline">A full year of EDGE costs the same as a single extra hour of ice time.</div>
+        <div class="value-sub">Private skills coaches charge $100–200/hour. Ice rental runs $300+/hour. EDGE gives you NHL-level training methodology for less than the price of one session — and you can use it every single day.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tiers-grid reveal">
+    <div class="tier-card">
+      <div class="tier-name">FREE</div>
+      <div class="tier-price">$0</div>
+      <ul class="tier-features">
+        <li>Daily stickhandling workout</li>
+        <li>Stickhandling fundamentals</li>
+        <li>Daily mobility baseline</li>
+        <li>Morning and bedtime flows</li>
+        <li>Streak tracking</li>
+      </ul>
+    </div>
+    <div class="tier-card popular">
+      <div class="tier-popular-tag">MOST POPULAR</div>
+      <div class="tier-name">PRO</div>
+      <div class="tier-price">$9.99<span>/mo</span></div>
+      <ul class="tier-features">
+        <li>Everything in Free</li>
+        <li>No ads</li>
+        <li>Full shooting program</li>
+        <li>All stickhandling sessions</li>
+        <li>All mobility sessions</li>
+        <li>AI video coaching ($4.99/review)</li>
+      </ul>
+    </div>
+    <div class="tier-card">
+      <div class="tier-name">ELITE</div>
+      <div class="tier-price">$29.99<span>/mo</span></div>
+      <ul class="tier-features">
+        <li>Everything in Pro</li>
+        <li>Unlimited AI video coaching</li>
+        <li>Personalized form corrections</li>
+        <li>Priority new content</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- METHOD -->
+<section id="method">
+  <div class="section-label">THE METHOD</div>
+  <div class="section-title">Built on real coaching, not random drills</div>
+  <div class="section-desc">Every drill in EDGE is informed by the same methodologies used to train NHL players. We studied the best coaches and distilled their systems into guided off-ice workouts.</div>
+
+  <div class="coaches reveal">
+    <div class="coach-card">
+      <div class="coach-name">Tim Turk</div>
+      <div class="coach-role">NHL Shooting Coach</div>
+      <div class="coach-desc">Worked with the Canadiens, Lightning, Hurricanes, Coyotes, and Flames. Trained Bedard, Gallagher, Hedman, Marner, Kadri, and Mangiapane. His 3-phase shooting system is the foundation of our shooting program.</div>
+    </div>
+    <div class="coach-card">
+      <div class="coach-name">Dwayne Blais</div>
+      <div class="coach-role">Detroit Red Wings Skill Development</div>
+      <div class="coach-desc">Hockey Canada certified, founder of Total Package Hockey and the National Skill Development Association. His progressive approach — stationary to skating to game speed — shapes how every session flows.</div>
+    </div>
+    <div class="coach-card">
+      <div class="coach-name">Auston Matthews</div>
+      <div class="coach-role">Shooting Mechanics Study</div>
+      <div class="coach-desc">We analyzed Matthews' signature techniques — the angle change, shooting in stride, the backhand pull — and built drills that teach you the same mechanics the best goal scorer in the world uses.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA / SIGNUP -->
+<section class="cta-section" id="signup">
+  <div class="section-label">JOIN THE BETA</div>
+  <div class="section-title" style="max-width: 500px">Be first on the ice</div>
+  <div class="section-desc" style="max-width: 440px">Drop your email and we'll let you know when EDGE launches. Beta users get early access and a discount on Pro.</div>
+
+  <div class="signup-form" id="signupForm">
+    <input type="email" class="signup-input" id="emailInput" placeholder="your@email.com" required>
+    <button class="signup-btn" onclick="handleSignup()">Join Beta</button>
+  </div>
+  <div class="signup-note">No spam. Just a launch notification and your beta invite.</div>
+  <div class="signup-success" id="signupSuccess">You're in. We'll be in touch.</div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>EDGE Hockey &copy; 2025. Find your edge off the ice.</p>
+</footer>
+
+<script>
+// Scroll reveal
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.15 });
+reveals.forEach(el => observer.observe(el));
+
+// Signup handler
+function handleSignup() {
+  const email = document.getElementById('emailInput').value;
+  if (!email || !email.includes('@')) { alert('Please enter a valid email.'); return; }
+
+  // For now just show success — replace with real API later
+  document.getElementById('signupForm').style.display = 'none';
+  document.getElementById('signupSuccess').style.display = 'block';
+
+  // TODO: Send email to your backend
+  // fetch('/api/signup', { method: 'POST', body: JSON.stringify({ email }) });
+  console.log('Beta signup:', email);
+}
+
+// Enter key on email input
+document.getElementById('emailInput').addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') handleSignup();
+});
+</script>
+
+</body>
+</html>
