@@ -34,7 +34,6 @@ body {
   overflow-x: hidden;
 }
 
-/* Noise overlay */
 body::before {
   content: '';
   position: fixed;
@@ -46,7 +45,6 @@ body::before {
 
 a { color: var(--red); text-decoration: none; }
 
-/* ===== NAV ===== */
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   padding: 20px 40px;
@@ -75,7 +73,6 @@ nav {
 }
 .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 8px 30px rgba(255,1,0,0.3); }
 
-/* ===== HERO ===== */
 .hero {
   min-height: 100vh; display: flex; flex-direction: column;
   align-items: center; justify-content: center; text-align: center;
@@ -144,7 +141,6 @@ nav {
   color: var(--text-ter); margin-top: 4px;
 }
 
-/* ===== SECTIONS ===== */
 section { padding: 100px 24px; max-width: 1100px; margin: 0 auto; }
 .section-label {
   font-size: 10px; font-weight: 600; letter-spacing: 3px;
@@ -160,7 +156,6 @@ section { padding: 100px 24px; max-width: 1100px; margin: 0 auto; }
   max-width: 500px; margin-top: 16px; font-weight: 300;
 }
 
-/* ===== FEATURES ===== */
 .features-grid {
   display: grid; grid-template-columns: repeat(3, 1fr);
   gap: 1px; margin-top: 56px;
@@ -183,7 +178,6 @@ section { padding: 100px 24px; max-width: 1100px; margin: 0 auto; }
   font-size: 14px; color: var(--text-sec); line-height: 1.7; font-weight: 300;
 }
 
-/* ===== HOW IT WORKS ===== */
 .steps {
   display: grid; grid-template-columns: repeat(3, 1fr);
   gap: 40px; margin-top: 56px;
@@ -197,46 +191,6 @@ section { padding: 100px 24px; max-width: 1100px; margin: 0 auto; }
 .step h3 { font-size: 18px; font-weight: 500; margin-bottom: 8px; }
 .step p { font-size: 14px; color: var(--text-sec); line-height: 1.7; font-weight: 300; }
 
-/* ===== TIERS ===== */
-.tiers-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr);
-  gap: 16px; margin-top: 56px;
-}
-.tier-card {
-  background: var(--card); border: 1px solid var(--border);
-  border-radius: 16px; padding: 36px 28px; position: relative;
-  transition: border-color 0.3s, transform 0.3s;
-}
-.tier-card:hover { transform: translateY(-4px); }
-.tier-card.popular { border-color: var(--red); }
-.tier-popular-tag {
-  position: absolute; top: -12px; right: 20px;
-  background: var(--red); color: #fff; padding: 4px 14px;
-  border-radius: 100px; font-size: 10px; font-weight: 700; letter-spacing: 2px;
-}
-.tier-name {
-  font-size: 12px; font-weight: 600; letter-spacing: 2px; color: var(--text-ter);
-}
-.tier-price {
-  font-size: 40px; font-weight: 200; letter-spacing: -2px; margin-top: 8px;
-}
-.tier-price span { font-size: 16px; color: var(--text-ter); font-weight: 400; }
-.tier-features { list-style: none; margin-top: 24px; }
-.tier-features li {
-  font-size: 14px; color: var(--text-sec); padding: 8px 0;
-  border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; gap: 10px;
-  font-weight: 300;
-}
-.tier-features li::before {
-  content: ''; width: 6px; height: 6px; border-radius: 50%;
-  flex-shrink: 0;
-}
-.tier-card:nth-child(1) .tier-features li::before { background: var(--text-ter); }
-.tier-card:nth-child(2) .tier-features li::before { background: var(--red); }
-.tier-card:nth-child(3) .tier-features li::before { background: var(--amber); }
-
-/* ===== VALUE COMPARISON ===== */
 .value-callout {
   margin-top: 48px; margin-bottom: 48px;
   border: 1px solid var(--red); border-radius: 16px;
@@ -280,15 +234,44 @@ section { padding: 100px 24px; max-width: 1100px; margin: 0 auto; }
   margin-top: 12px; font-weight: 300;
 }
 
-@media (max-width: 768px) {
-  .value-inner { grid-template-columns: 1fr; }
-  .value-left { border-right: none; border-bottom: 1px solid var(--border); padding: 28px 24px; }
-  .value-right { padding: 28px 24px; }
-  .value-vs { flex-direction: column; gap: 16px; text-align: center; }
-  .value-equals { transform: rotate(90deg); }
+.tiers-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 16px; margin-top: 56px;
 }
+.tier-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 16px; padding: 36px 28px; position: relative;
+  transition: border-color 0.3s, transform 0.3s;
+}
+.tier-card:hover { transform: translateY(-4px); }
+.tier-card.popular { border-color: var(--red); }
+.tier-popular-tag {
+  position: absolute; top: -12px; right: 20px;
+  background: var(--red); color: #fff; padding: 4px 14px;
+  border-radius: 100px; font-size: 10px; font-weight: 700; letter-spacing: 2px;
+}
+.tier-name {
+  font-size: 12px; font-weight: 600; letter-spacing: 2px; color: var(--text-ter);
+}
+.tier-price {
+  font-size: 40px; font-weight: 200; letter-spacing: -2px; margin-top: 8px;
+}
+.tier-price span { font-size: 16px; color: var(--text-ter); font-weight: 400; }
+.tier-features { list-style: none; margin-top: 24px; }
+.tier-features li {
+  font-size: 14px; color: var(--text-sec); padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 10px;
+  font-weight: 300;
+}
+.tier-features li::before {
+  content: ''; width: 6px; height: 6px; border-radius: 50%;
+  flex-shrink: 0;
+}
+.tier-card:nth-child(1) .tier-features li::before { background: var(--text-ter); }
+.tier-card:nth-child(2) .tier-features li::before { background: var(--red); }
+.tier-card:nth-child(3) .tier-features li::before { background: var(--amber); }
 
-/* ===== COACHES ===== */
 .coaches {
   display: flex; gap: 32px; margin-top: 56px; flex-wrap: wrap;
 }
@@ -300,7 +283,6 @@ section { padding: 100px 24px; max-width: 1100px; margin: 0 auto; }
 .coach-role { font-size: 12px; color: var(--text-ter); font-weight: 400; letter-spacing: 0.5px; }
 .coach-desc { font-size: 13px; color: var(--text-sec); line-height: 1.6; margin-top: 12px; font-weight: 300; }
 
-/* ===== CTA / SIGNUP ===== */
 .cta-section {
   text-align: center; padding: 120px 24px;
   position: relative;
@@ -343,7 +325,6 @@ section { padding: 100px 24px; max-width: 1100px; margin: 0 auto; }
   margin-top: 16px;
 }
 
-/* ===== FOOTER ===== */
 footer {
   border-top: 1px solid var(--border);
   padding: 40px 24px;
@@ -351,7 +332,6 @@ footer {
 }
 footer p { font-size: 12px; color: var(--text-ter); font-weight: 300; }
 
-/* ===== ANIMATIONS ===== */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
@@ -363,7 +343,6 @@ footer p { font-size: 12px; color: var(--text-ter); font-weight: 300; }
 }
 .reveal.visible { opacity: 1; transform: translateY(0); }
 
-/* ===== MOBILE ===== */
 @media (max-width: 768px) {
   nav { padding: 16px 20px; }
   .nav-links a:not(.nav-cta) { display: none; }
@@ -374,12 +353,16 @@ footer p { font-size: 12px; color: var(--text-ter); font-weight: 300; }
   .signup-form { flex-direction: column; }
   .coaches { flex-direction: column; }
   section { padding: 64px 20px; }
+  .value-inner { grid-template-columns: 1fr; }
+  .value-left { border-right: none; border-bottom: 1px solid var(--border); padding: 28px 24px; }
+  .value-right { padding: 28px 24px; }
+  .value-vs { flex-direction: column; gap: 16px; text-align: center; }
+  .value-equals { transform: rotate(90deg); }
 }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
   <div class="nav-logo">
     <svg viewBox="0 0 32 32" fill="none"><polygon points="6,4 26,16 6,28" fill="#FF0100"/></svg>
@@ -393,7 +376,6 @@ footer p { font-size: 12px; color: var(--text-ter); font-weight: 300; }
   </div>
 </nav>
 
-<!-- HERO -->
 <div class="hero">
   <div class="hero-badge">THE MISSING PIECE TO YOUTH DEVELOPMENT</div>
   <h1>Find Your <em>Edge</em> Off The Ice</h1>
@@ -418,7 +400,6 @@ footer p { font-size: 12px; color: var(--text-ter); font-weight: 300; }
   </div>
 </div>
 
-<!-- FEATURES -->
 <section id="features">
   <div class="section-label">WHAT YOU GET</div>
   <div class="section-title">Everything you need to train like a pro</div>
@@ -458,7 +439,6 @@ footer p { font-size: 12px; color: var(--text-ter); font-weight: 300; }
   </div>
 </section>
 
-<!-- HOW IT WORKS -->
 <section>
   <div class="section-label">HOW IT WORKS</div>
   <div class="section-title">Three steps to better hockey</div>
@@ -481,7 +461,6 @@ footer p { font-size: 12px; color: var(--text-ter); font-weight: 300; }
   </div>
 </section>
 
-<!-- PRICING -->
 <section id="pricing">
   <div class="section-label">PRICING</div>
   <div class="section-title">Start free. Go pro when you're ready.</div>
@@ -549,7 +528,6 @@ footer p { font-size: 12px; color: var(--text-ter); font-weight: 300; }
   </div>
 </section>
 
-<!-- METHOD -->
 <section id="method">
   <div class="section-label">THE METHOD</div>
   <div class="section-title">Built on real coaching, not random drills</div>
@@ -574,7 +552,6 @@ footer p { font-size: 12px; color: var(--text-ter); font-weight: 300; }
   </div>
 </section>
 
-<!-- CTA / SIGNUP -->
 <section class="cta-section" id="signup">
   <div class="section-label">JOIN THE BETA</div>
   <div class="section-title" style="max-width: 500px">Be first on the ice</div>
@@ -588,38 +565,43 @@ footer p { font-size: 12px; color: var(--text-ter); font-weight: 300; }
   <div class="signup-success" id="signupSuccess">You're in. We'll be in touch.</div>
 </section>
 
-<!-- FOOTER -->
 <footer>
   <p>EDGE Hockey &copy; 2025. Find your edge off the ice.</p>
 </footer>
 
 <script>
-// Scroll reveal
-const reveals = document.querySelectorAll('.reveal');
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
+var reveals = document.querySelectorAll('.reveal');
+var observer = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
     if (entry.isIntersecting) {
       entry.target.classList.add('visible');
     }
   });
 }, { threshold: 0.15 });
-reveals.forEach(el => observer.observe(el));
+reveals.forEach(function(el) { observer.observe(el); });
 
-// Signup handler
 function handleSignup() {
-  const email = document.getElementById('emailInput').value;
+  var email = document.getElementById('emailInput').value;
   if (!email || !email.includes('@')) { alert('Please enter a valid email.'); return; }
 
-  // For now just show success — replace with real API later
-  document.getElementById('signupForm').style.display = 'none';
-  document.getElementById('signupSuccess').style.display = 'block';
+  var btn = document.querySelector('.signup-btn');
+  btn.textContent = 'Sending...';
+  btn.disabled = true;
 
-  // TODO: Send email to your backend
-  // fetch('/api/signup', { method: 'POST', body: JSON.stringify({ email }) });
-  console.log('Beta signup:', email);
+  fetch('https://script.google.com/macros/s/AKfycbyYTc5ZsXyXJhZAQ8cek8AfgfTqIXKfctnB9PDGayggb1eywezEkinM0kg7-e9KP65atg/exec', {
+    method: 'POST',
+    body: JSON.stringify({ email: email })
+  })
+  .then(function() {
+    document.getElementById('signupForm').style.display = 'none';
+    document.getElementById('signupSuccess').style.display = 'block';
+  })
+  .catch(function() {
+    document.getElementById('signupForm').style.display = 'none';
+    document.getElementById('signupSuccess').style.display = 'block';
+  });
 }
 
-// Enter key on email input
 document.getElementById('emailInput').addEventListener('keypress', function(e) {
   if (e.key === 'Enter') handleSignup();
 });
